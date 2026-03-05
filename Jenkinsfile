@@ -11,7 +11,7 @@ pipeline {
 
         stage('Run Container') {
             steps {
-                bat 'docker run -d -p 8080:80 myapp'
+                bat 'docker run -d -p 9090:80 myapp'
             }
         }
 
