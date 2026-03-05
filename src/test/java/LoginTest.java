@@ -4,25 +4,46 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class LoginTest {
 
-@Test
-public void validLoginTest() {
+    @Test
+    public void validLoginTest() {
 
-WebDriver driver = new ChromeDriver();
-driver.manage().window().maximize();
+        // Automatically download and setup ChromeDriver
+        WebDriverManager.chromedriver().setup();
 
-driver.get("https://practicetestautomation.com/practice-test-login/");
+        // Start browser
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
 
-driver.findElement(By.id("username")).sendKeys("student");
-driver.findElement(By.id("password")).sendKeys("Password123");
-driver.findElement(By.id("submit")).click();
+        // Open test website
+        driver.get("https://practicetestautomation.com/practice-test-login/");
 
-String expectedText = "Logged In Successfully";
-String pageText = driver.getPageSource();
+        // Enter username
+        driver.findElement(By.id("username")).sendKeys("student");
 
-Assert.assertTrue(pageText.contains(expectedText));
+        // Enter password
+        driver.findElement(By.id("password")).sendKeys("Password123");
 
-driver.quit();
-}
+        // Click login button
+        driver.findElement(By.id("submit")).click();
+
+        // Wait for page to load
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Verify login success
+        String expectedText = "Logged In Successfully";
+        String pageText = driver.getPageSource();
+
+        Assert.assertTrue(pageText.contains(expectedText));
+
+        // Close browser
+        driver.quit();
+    }
 }
